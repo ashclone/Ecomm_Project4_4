@@ -1,0 +1,30 @@
+﻿@model Ecomm_Project4_4.Models.Cart
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<form method="post" asp-action="Details">
+    <div class="row">
+        <div class="col-4">
+            <img src="@Model.Product.ImageUrl" width="200" height="200" />
+            <input type="hidden" asp-for="ProductId" />
+        </div>
+        <div class="col-8 row border">
+            <label asp-for="Product.Name">Product Name: @Model.Product.Name</label>
+            <label asp-for="Product.Price">Product Price: @Model.Product.Price</label>
+            <label asp-for="Product.Description">Product Description: @Model.Product.Description</label>
+            <label asp-for="Product.CategoryId">Product Category: @Model.Product.cateogory.Name</label>
+            <div class="form-control">
+                <label asp-for="Count"></label>
+                <input asp-for="Count" class="form-control" />
+                <span asp-validation-for="Count" class="text-danger"></span>
+            </div>
+            <div class="form-control">
+                <button class="btn btn-success" asp-action="Index" asp-controller="Home">Back to List</button>
+                <button class="btn btn-dark">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</form>
+

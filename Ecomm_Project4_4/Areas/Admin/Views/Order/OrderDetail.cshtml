@@ -1,0 +1,284 @@
+﻿@model Ecomm_Project4_4.Models.ViewModels.OrderVM
+@using Ecomm_Project4_4.Helper
+@using Ecomm_Project4_4.Utility
+<form method="post">
+    <input type="hidden" asp-for="OrderHeader.Id" />
+    <div class="container rounded p-2">
+        <div class="row">
+            <div class="col-12 col-lg-6 pb-4">
+                <div class="row">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-info">PickUp Details:</span>
+                    </h4>
+                    @if (User.IsInRole(WebSiteRole.Role_Admin) || User.IsInRole(WebSiteRole.Role_Employee))
+                    {
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.Name" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Phone</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.PhoneNumber" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Address</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.Address" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>City</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.City" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>State</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.State" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Postal Code</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.PostalCode" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label asp-for="OrderHeader.DateOfOrder"></label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" asp-for="OrderHeader.DateOfOrder" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label asp-for="OrderHeader.TrackingNumber"></label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" id="trackingId" class="form-control" asp-for="OrderHeader.TrackingNumber" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label asp-for="OrderHeader.DateOfShipping"></label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" asp-for="OrderHeader.DateOfShipping" />
+                            </div>
+                        </div>
+                        @if (Model.OrderHeader.SessionId != null)
+                        {
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label asp-for="OrderHeader.PaymentStatus"></label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" readonly class="form-control" asp-for="OrderHeader.PaymentStatus" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label asp-for="OrderHeader.PaymentIntentid"></label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" readonly class="form-control" asp-for="OrderHeader.PaymentIntentid" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label asp-for="OrderHeader.DateOfPayment"> Payment Date</label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" readonly class="form-control" asp-for="OrderHeader.DateOfPayment" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label asp-for="OrderHeader.SessionId"></label>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" readonly class="form-control" asp-for="OrderHeader.SessionId" />
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.Name" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Phone</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.PhoneNumber" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Address</label>
+                            </div>
+                            
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.Address" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>City</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.City" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>State</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.State" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Postal Code</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.PostalCode" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label asp-for="OrderHeader.DateOfOrder"></label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.DateOfOrder" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label asp-for="OrderHeader.TrackingNumber"></label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.TrackingNumber" />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label asp-for="OrderHeader.PaymentStatus"></label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" readonly class="form-control" asp-for="OrderHeader.PaymentStatus" />
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-5 offset-lg-1">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-info">Order Summary:</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    @foreach (var item in Model.OrderDetail)
+                    {
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <h6 class="my-0">@item.Product.Name</h6>
+                                <small class="text-muted">Quantity: @item.Count</small>
+                            </div>
+                            <span class="text-muted">@item.Product.Price.ToString("c") * @item.Count</span>
+                        </li>
+                    }
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <small class="text-info">Total (INR)</small>
+                        <strong class="text-info"> @Model.OrderHeader.OrderTotal.ToString("c")</strong>
+                    </li>
+                </ul>
+                <div class="row">
+                    @if (User.IsInRole(WebSiteRole.Role_Admin) || User.IsInRole(WebSiteRole.Role_Employee))
+                    {
+                        @if (Model.OrderHeader.PaymentStatus == PaymentStatus.PaymentApproved)
+                        {
+                            <div class="col-12 col-md-4">
+                                <button type="submit" onclick="return ShippValData()" id="btnShipped" class="btn btn-success form-control">Order Shipped</button>
+                            </div>
+                        }
+                        <div class="col-12 col-md-4">
+                            <button type="submit" class="btn btn-primary form-control">Order Processing</button>
+                        </div>
+                    }
+                    <div class="col-12 col-md-4">
+                        <a onclick="return ValData()" id="btnCancelled" asp-action="OrderCancelled" asp-controller="Order" asp-route-id="@Model.OrderHeader.Id" class="btn btn-dark form-control">Cancel Order</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{ 
+<script>
+    function ValData() {
+        if (document.getElementById("btnCancelled")) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this Order !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Order Deleted  Successfully", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your Order  is safe!");
+                    }
+                });
+        }
+            
+        
+    }
+</script>
+<script>
+    function ShippValData() {
+        if (document.getElementById("trackingId").value == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Please Add Tracking Number",
+                footer: "Without you cann't Shipped the Order "
+            });
+            return false;
+        }
+    }
+</script>
+}

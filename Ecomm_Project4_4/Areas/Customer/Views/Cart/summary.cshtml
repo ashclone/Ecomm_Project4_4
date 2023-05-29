@@ -1,0 +1,176 @@
+﻿@model Ecomm_Project4_4.Models.ViewModels.CartVM
+@using Microsoft.Extensions.Options
+@inject IOptions<Ecomm_Project4_4.Helper.RazorpaySettings> rozarpaySettings;
+
+
+<form method="post">
+    <input type="hidden" id="paymentid" name="paymentid" />
+    <input type="hidden" id="orderid" name="orderid" />
+    <input type="hidden" id="signature" name="signature" />
+    <input type="hidden" id="paymentstatus" name="paymentstatus" />
+    <input type="submit" id="btnSubmit" hidden />
+    <br />
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header offset-lg-0 bg-dark text-light ml-0 row container">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Order Summary
+                    </div>
+                    <div class="col-6 text-end">
+                        <a class="btn btn-outline-info btn-sm">Back to Cart</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-info">PickUp Details:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" asp-for="OrderHeader.Name" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Phone</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" asp-for="OrderHeader.PhoneNumber" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Address</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" asp-for="OrderHeader.Address" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>City</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" asp-for="OrderHeader.City" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>State</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" asp-for="OrderHeader.State" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Postal Code</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" asp-for="OrderHeader.PostalCode" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">Order Summary:</span>
+                                </h4>
+                                <ul class="list-group mb-3">
+                                    @foreach (var item in Model.listOfCarts)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="my-0">@item.Product.Name</h6>
+                                                <small class="text-muted">Quantity: @item.Count</small>
+                                            </div>
+                                            <span class="text-muted">@item.Product.Price.ToString("c") * @item.Count</span>
+                                        </li>
+                                    }
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <small class="text-info">Total (INR)</small>
+                                        <strong class="text-info"> @Model.OrderHeader.OrderTotal.ToString("c")</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-md-8 pt-2">
+                            <p style="color:maroon; font-size:14px;">Estimate Arrival Date: @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()</p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <button type="submit"  id="rzp-button1" class="btn btn-success form-control">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    @{
+        var ammount = @Model.OrderHeader.OrderTotal * 100;
+    }
+    <script>
+        var options = {
+            "key": "@rozarpaySettings.Value.key_id", // Enter the Key ID generated from the Dashboard
+            "amount": "@ammount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "BookShopping ",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": "@Model.OrderId", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response) {
+                
+                $('#orderid').val(response.razorpay_order_id);
+                $('#paymentid').val(response.razorpay_payment_id);
+                $('#signature').val(response.razorpay_signature);
+                $('#paymentstatus').val("Success");
+                $('#btnSubmit').click();
+
+
+            },
+            "prefill": {
+                "name": "@Model.OrderHeader.Name",
+                "email": "@Model.OrderHeader.ApplicationUser.Email",
+                "contact": "@Model.OrderHeader.ApplicationUser.PhoneNumber"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            console.log(response.error);
+            $('#paymentstatus').val("Fail");
+
+            $('#btnSubmit').click();
+            //alert(response.error.code);
+            //alert(response.error.description);
+            //alert(response.error.source);
+            //alert(response.error.step);
+            //alert(response.error.reason);
+            //alert(response.error.metadata.order_id);
+            //alert(response.error.metadata.payment_id);
+        });
+        document.getElementById('rzp-button1').onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+}
